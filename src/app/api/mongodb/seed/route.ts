@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getDatabase } from '@/lib/mongodb';
+
+export const dynamic = 'force-dynamic';
 import {
   INITIAL_WAREHOUSES,
   INITIAL_LOCATIONS,
