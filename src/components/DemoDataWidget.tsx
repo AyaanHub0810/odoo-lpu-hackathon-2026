@@ -25,6 +25,16 @@ export default function DemoDataWidget() {
   const [feedback, setFeedback] = useState<string | null>(null);
   const [hasInteracted, setHasInteracted] = useState(false);
 
+  // Auto-minimize after 12 seconds on initial mount so it doesn't obstruct view
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!hasInteracted) {
+        setIsMinimized(true);
+      }
+    }, 12000);
+    return () => clearTimeout(timer);
+  }, [hasInteracted]);
+
   // If on landing page or auth routes, do not render floating widget
   if (
     pathname === '/' ||
@@ -35,16 +45,6 @@ export default function DemoDataWidget() {
   ) {
     return null;
   }
-
-  // Auto-minimize after 12 seconds on initial mount so it doesn't obstruct view
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!hasInteracted) {
-        setIsMinimized(true);
-      }
-    }, 12000);
-    return () => clearTimeout(timer);
-  }, [hasInteracted]);
 
   const handleLoadDemo = async () => {
     setLoading(true);
