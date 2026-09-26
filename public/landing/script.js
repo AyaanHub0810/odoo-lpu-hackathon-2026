@@ -81,15 +81,33 @@ function initThreatShield() {
 
   // "Launch App" opens StockSense Web App
   if (openDemoBtn) {
-    openDemoBtn.addEventListener('click', () => {
-      window.open('http://localhost:3000/dashboard', '_blank');
+    openDemoBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      try {
+        if (window.top && window.top !== window) {
+          window.top.location.href = '/dashboard';
+        } else {
+          window.location.href = '/dashboard';
+        }
+      } catch {
+        window.location.href = '/dashboard';
+      }
     });
   }
 
   const openBriefingBtn = document.getElementById('openBriefingBtn');
-  if (openBriefingBtn && demoModal) {
-    openBriefingBtn.addEventListener('click', () => {
-      demoModal.showModal();
+  if (openBriefingBtn) {
+    openBriefingBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      try {
+        if (window.top && window.top !== window) {
+          window.top.location.href = '/login';
+        } else {
+          window.location.href = '/login';
+        }
+      } catch {
+        window.location.href = '/login';
+      }
     });
   }
 

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'motion/react';
 import { useInventory } from '@/context/InventoryContext';
 import {
@@ -17,11 +18,23 @@ import {
 } from 'lucide-react';
 
 export default function DemoDataWidget() {
+  const pathname = usePathname();
   const { isMongoConnected, loadDemoData, syncToMongoDB, products, operations } = useInventory();
   const [isMinimized, setIsMinimized] = useState(false);
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [hasInteracted, setHasInteracted] = useState(false);
+
+  // If on landing page or auth routes, do not render floating widget
+  if (
+    pathname === '/' ||
+    pathname === '/landing' ||
+    pathname === '/login' ||
+    pathname === '/signup' ||
+    pathname === '/forgot-password'
+  ) {
+    return null;
+  }
 
   // Auto-minimize after 12 seconds on initial mount so it doesn't obstruct view
   useEffect(() => {

@@ -72,8 +72,14 @@ export default function Navbar() {
     });
   }, [router]);
 
-  // If on auth pages, don't show navigation
-  if (pathname === '/login' || pathname === '/signup' || pathname === '/forgot-password') {
+  // If on landing or auth pages, don't show navigation
+  if (
+    pathname === '/' ||
+    pathname === '/landing' ||
+    pathname === '/login' ||
+    pathname === '/signup' ||
+    pathname === '/forgot-password'
+  ) {
     return null;
   }
 
