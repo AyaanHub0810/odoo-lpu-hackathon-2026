@@ -622,5 +622,10 @@ td strong {
 
   .topbar {
     padding: 0 22px;
+    
+  .last-updated {
+  color: #7b8798;
+  font-size: 11px;
+  }
   }
 }
