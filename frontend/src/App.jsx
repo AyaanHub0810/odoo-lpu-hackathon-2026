@@ -13,6 +13,7 @@ function App() {
   const [transfers, setTransfers] = useState([]);
   const [adjustments, setAdjustments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [lastUpdated, setLastUpdated] = useState(null);
 
   useEffect(() => {
     loadData();
@@ -47,6 +48,7 @@ function App() {
       setDeliveries(await deliveriesRes.json());
       setTransfers(await transfersRes.json());
       setAdjustments(await adjustmentsRes.json());
+      setLastUpdated(new Date());
     } catch (error) {
       console.error("Frontend data loading error:", error);
     } finally {
@@ -106,6 +108,11 @@ function App() {
           </div>
 
           <div className="top-actions">
+              {lastUpdated && (
+  <span className="last-updated">
+    Updated {lastUpdated.toLocaleTimeString()}
+  </span>
+)}
             <button className="refresh-btn" onClick={loadData}>
               ↻ Refresh
             </button>
