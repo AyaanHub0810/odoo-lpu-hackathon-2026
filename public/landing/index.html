@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StockSense — Real-Time WMS &amp; Immutable Double-Entry Inventory Ledger</title>
+  <meta name="description" content="Eliminate phantom stockouts, manual paper logs, and Excel inventory drift with StockSense's immutable double-entry ledger, dynamic Free-to-Use allocation, and in-app camera barcode scanning.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&family=Oswald:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=15">
+  <link rel="stylesheet" href="components/ThreatDetectionSection.css">
+  <link rel="stylesheet" href="components/GlobalCoverageSection.css">
+  <link rel="stylesheet" href="components/ProcessSection.css">
+  <link rel="stylesheet" href="components/CapabilitiesSection.css">
+  <link rel="stylesheet" href="components/TrustedByTheBest.css">
+  <base href="/landing/">
+</head>
+<body>
+  <!-- Atmospheric Grid & Lighting -->
+  <div class="cyber-canvas">
+    <div class="cross-grid" id="crossGrid"></div>
+    <div class="ambient-glow"></div>
+    <div class="ambient-glow-cyan"></div>
+    <div class="scanline-overlay"></div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="app-container" id="home">
+    <!-- Navigation Bar -->
+    <header class="navbar">
+      <!-- 3D Adaptive Navigation Pill (Smart hover expansion & skeuomorphic lighting) -->
+      <nav class="nav-pill-3d" id="adaptiveNavPill" aria-label="Main Navigation">
+        <!-- 1. Primary top edge ridge - ultra bright -->
+        <div class="pill-top-ridge"></div>
+        <!-- 2. Top hemisphere light catch -->
+        <div class="pill-top-hemisphere"></div>
+        <!-- 3. Directional light - top left -->
+        <div class="pill-directional-light"></div>
+        <!-- 4. Premium gloss reflection - main -->
+        <div class="pill-gloss-main"></div>
+        <!-- 5. Secondary gloss accent - shown when expanded -->
+        <div class="pill-gloss-accent"></div>
+        <!-- 6. Left edge illumination -->
+        <div class="pill-edge-left"></div>
+        <!-- 7. Right edge shadow -->
+        <div class="pill-edge-right"></div>
+        <!-- 8. Bottom curvature - deep shadow -->
+        <div class="pill-bottom-curvature"></div>
+        <!-- 9. Bottom edge contact shadow -->
+        <div class="pill-bottom-shadow"></div>
+        <!-- 10. Inner diffuse glow -->
+        <div class="pill-diffuse-glow"></div>
+        <!-- 11. Micro edge definition -->
+        <div class="pill-micro-edge"></div>
+
+        <!-- Navigation Content (Collapsed label vs. Expanded buttons) -->
+        <div class="pill-content-container">
+          <!-- Collapsed State: Active label with engraved text shadow -->
+          <div class="pill-collapsed-view" id="pillCollapsedView">
+            <span class="pill-active-label" id="pillActiveLabel">Home</span>
+          </div>
+
+          <!-- Expanded State: Staggered navigation links -->
+          <div class="pill-expanded-view" id="pillExpandedView">
+            <button class="pill-nav-btn active" data-id="home">Home</button>
+            <button class="pill-nav-btn" data-id="problem">Problem</button>
+            <button class="pill-nav-btn" data-id="solution">Solution</button>
+          </div>
+        </div>
+      </nav>
+
+      <div class="header-compliance">
+        <span class="compliance-plus">+</span>
+        <p class="compliance-text">
+          StockSense — Centralized Real-Time Inventory Management System.<br>
+          Double-entry immutable ledger tracking receipts, transfers,<br>
+          deliveries, and bin reconciliation with zero inventory drift.
+        </p>
+      </div>
+
+      <div class="header-cta" style="display: flex; gap: 0.75rem;">
+        <a href="/login" target="_top" class="btn-demo" id="openBriefingBtn" style="text-decoration: none; cursor: pointer;">
+          <span>Sign In / Demo</span>
+          <svg class="arrow-icon" width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a href="/dashboard" target="_top" class="btn-demo" id="openDemoBtn" style="background: rgba(14, 165, 233, 0.15); border-color: #38bdf8; text-decoration: none; cursor: pointer;">
+          <span style="color: #38bdf8; font-weight: 500;">Launch App ↗</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Hero Stage with Layered Typography & Graphic -->
+    <main class="hero-stage">
+      <!-- Background Giant Title -->
+      <div class="hero-title-container">
+        <h1 class="hero-title" aria-label="STOCKSENSE">
+          <span class="word">STOCKSENSE</span>
+        </h1>
+      </div>
+
+      <!-- Preloaded Unit Image Layer -->
+      <div class="aircraft-hero-layer" id="aircraftLayer">
+        <img class="hero-aircraft-img active" data-model="highbay" src="assets/hero_highbay.png" alt="Automated high-bay storage crane and rack assembly" />
+        <img class="hero-aircraft-img" data-model="amr" src="assets/hero_amr.png" alt="Autonomous warehouse robot carrying inventory totes" />
+        <img class="hero-aircraft-img" data-model="twin" src="assets/hero_twin.png" alt="Isometric digital-twin model of a warehouse" />
+        <img class="hero-aircraft-img" data-model="dispatch" src="assets/hero_dispatch.png" alt="Automated conveyor and robotic parcel sorting assembly" />
+      </div>
+
+      <!-- Unit Model Switcher Badge (Bottom Left Floating) -->
+      <div class="aircraft-selector" id="aircraftSelector">
+        <div class="selector-progress" id="selectorProgress"></div>
+        <span class="selector-label">UNIT_ID:</span>
+        <button class="selector-btn active" data-model="highbay" title="High-Bay ASRS">HIGH-BAY</button>
+        <button class="selector-btn" data-model="amr" title="Autonomous Mobile Robot">FLEET AMR</button>
+        <button class="selector-btn" data-model="twin" title="3D Digital Twin">3D TWIN</button>
+        <button class="selector-btn" data-model="dispatch" title="Sortation & Dispatch">SORT DOCK</button>
+      </div>
+
+      <!-- Telemetry Annotations Layer (Precisely Positioned Monospace Badges) -->
+      <div class="telemetry-layer">
+        <!-- 1. Top-Left: Ledger & Active Location -->
+        <div class="telemetry-badge badge-top-left" id="badgeTopLeft">
+          <div class="telemetry-line">
+            <span class="bracket-tag">[LEDGER/WMS]</span> Double-entry ledger armed <span class="check-mark">✓</span>
+          </div>
+          <div class="telemetry-line text-dim">
+            dwell_zone: <span class="hash-code">WH/Stock1 (Zone A)</span>
+          </div>
+        </div>
+
+        <!-- 2. Mid-Top Center: Accuracy & SKUs -->
+        <div class="telemetry-badge badge-center-top" id="badgeCenterTop">
+          <div class="telemetry-line">
+            dispatch_accuracy: <span class="text-white" id="uptimeVal">99.4%</span>
+          </div>
+          <div class="telemetry-line text-dim">
+            skus_indexed: <span class="text-white">1,840</span>
+          </div>
+        </div>
+
+        <!-- 3. Mid-Left: Free-to-Use SKU Allocation -->
+        <div class="telemetry-badge badge-mid-left" id="badgeMidLeft">
+          <div class="telemetry-line">
+            <span class="sq-bullet">■</span> free_to_use: <span class="hash-code">DESK001 → 44/50</span>
+          </div>
+          <div class="telemetry-line indent">
+            reorder_threshold: 15 <span class="check-mark">✓</span>
+          </div>
+          <div class="telemetry-line indent">
+            allocation: <span class="badge-status-pass">LOCKED</span>
+          </div>
+        </div>
+
+        <!-- 4. Bottom-Left: Multi-Facility Status -->
+        <div class="telemetry-badge badge-bottom-left" id="badgeBottomLeft">
+          <div class="telemetry-line">
+            <span class="sq-bullet">■</span> multi_facility: <span class="text-white">128/128</span> bins indexed (WH &amp; NDH)
+          </div>
+        </div>
+
+        <!-- 5. Mid-Right (Upper): Ledger Sync Command -->
+        <div class="telemetry-badge badge-mid-right-top" id="badgeRightTop">
+          <div class="telemetry-line">
+            <span class="sq-bullet">■</span> <span class="cmd-prompt">$ stocksense sync --auto</span>
+          </div>
+          <div class="telemetry-line indent text-dim">
+            &gt; <span class="text-white">4</span> active operations (IN/INT/OUT/ADJ)
+          </div>
+        </div>
+
+        <!-- 6. Mid-Right (Center): Bin Occupancy & Reconciliation -->
+        <div class="telemetry-badge badge-mid-right-center" id="badgeRightCenter">
+          <div class="telemetry-line">
+            &gt; bin_occupancy_sweep... <span class="text-white">WH/Stock1 95% FULL</span>
+          </div>
+          <div class="telemetry-line">
+            &gt; reconciliation: <span class="status-low">IMMUTABLE</span>
+          </div>
+        </div>
+
+        <!-- 7. Bottom-Right: Live StockSense Ledger Activity Feed -->
+        <div class="telemetry-badge badge-bottom-right" id="badgeBottomRight">
+          <div class="telemetry-line">
+            <span class="sq-bullet">■</span>
+            <span class="log-time" id="logTime1">14:02:37</span>
+            <span class="log-level info">INFO</span>
+            <span class="log-msg">WH/IN/0001 received 100 kg Steel</span>
+          </div>
+          <div class="telemetry-line indent">
+            <span class="log-time" id="logTime2">14:02:41</span>
+            <span class="log-level warn">WARN</span>
+            <span class="log-msg">Low stock alert: DESK001 &le; 15</span>
+          </div>
+          <div class="telemetry-line indent">
+            <span class="log-time" id="logTime3">14:02:43</span>
+            <span class="log-level info">INFO</span>
+            <span class="log-msg">WH/INT/0001 40 kg &rarr; WH/Production</span>
+          </div>
+          <div class="telemetry-line indent">
+            <span class="log-time" id="logTime4">14:02:45</span>
+            <span class="log-level info">INFO</span>
+            <span class="log-msg">WH/OUT/0001 validated &amp; signed</span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ==========================================================================
+       Stage 2: Problem Statement Section
+       ========================================================================== -->
+  <section class="threat-detection-section" id="problem" aria-label="Problem statement">
+    <div class="threat-detection-inner">
+      <div class="threat-statement">
+        <div class="threat-statement-label"><span>01</span><span>//</span><span>STATEMENT</span></div>
+        <div class="threat-statement-copy">
+          <span class="threat-statement-plus" aria-hidden="true">+</span>
+          <h2>Traditional inventory management relies on manual paper registers, disconnected Excel spreadsheets, and fragmented WhatsApp chats. Phantom stockouts, unindexed warehouse racks, and unaccounted internal movements silently destroy order fulfillment speed and erode margins.</h2>
+        </div>
+      </div>
+
+      <div class="threat-flow">
+        <div class="threat-flow-heading"><span>02</span><h3>Where disconnected<br class="threat-heading-break" />systems fail</h3></div>
+
+        <div class="threat-tracks">
+          <div class="threat-track-dash" aria-hidden="true"></div>
+          <div class="threat-track-dash" aria-hidden="true"></div>
+          <div class="threat-track-dash" aria-hidden="true"></div>
+
+          <div class="threat-cards" id="threatCardsGrid">
+            <!-- Problem Card 1 -->
+            <button class="threat-card threat-card-seq-1" type="button" data-index="0" aria-pressed="false">
+              <span class="threat-card-line"><span class="threat-card-top-bar"></span><span class="threat-card-pip"></span></span>
+              <span class="threat-card-body">
+                <span class="threat-card-glow"></span>
+                <span class="threat-card-log-tag">INCIDENT LOG</span>
+                <span class="threat-card-title"><span aria-hidden="true">+</span>Phantom Stockouts</span>
+                <span class="threat-card-sub"><span aria-hidden="true">☐</span>Customer order blocked despite physical stock</span>
+              </span>
+            </button>
+
+            <!-- Problem Card 2 (Active Default) -->
+            <button class="threat-card threat-card-seq-2 is-active" type="button" data-index="1" aria-pressed="true">
+              <span class="threat-card-line"><span class="threat-card-top-bar"></span><span class="threat-card-pip"></span></span>
+              <span class="threat-card-body">
+                <span class="threat-card-glow"></span>
+                <span class="threat-card-log-tag">INCIDENT LOG</span>
+                <span class="threat-card-title"><span aria-hidden="true">+</span>Blind Dispatches</span>
+                <span class="threat-card-sub"><span aria-hidden="true">☐</span>Wrong SKU picked from unindexed bin location</span>
+              </span>
+            </button>
+
+            <!-- Problem Card 3 -->
+            <button class="threat-card threat-card-seq-3" type="button" data-index="2" aria-pressed="false">
+              <span class="threat-card-line"><span class="threat-card-top-bar"></span><span class="threat-card-pip"></span></span>
+              <span class="threat-card-body">
+                <span class="threat-card-glow"></span>
+                <span class="threat-card-log-tag">INCIDENT LOG</span>
+                <span class="threat-card-title"><span aria-hidden="true">+</span>Disconnected Silos</span>
+                <span class="threat-card-sub"><span aria-hidden="true">☐</span>WhatsApp &amp; Excel sheets drift within 24 hours</span>
+              </span>
+            </button>
+
+            <!-- Problem Card 4 -->
+            <button class="threat-card threat-card-seq-4" type="button" data-index="3" aria-pressed="false">
+              <span class="threat-card-line"><span class="threat-card-top-bar"></span><span class="threat-card-pip"></span></span>
+              <span class="threat-card-body">
+                <span class="threat-card-glow"></span>
+                <span class="threat-card-log-tag">INCIDENT LOG</span>
+                <span class="threat-card-title"><span aria-hidden="true">+</span>Reconciliation Drift</span>
+                <span class="threat-card-sub"><span aria-hidden="true">☐</span>Manual audits take days to isolate damaged items</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       Stage 3: Closed Loop Double-Entry Architecture
+       ========================================================================== -->
+  <section class="global-coverage-section" id="coverage" aria-labelledby="global-coverage-heading">
+    <header class="global-coverage-header" data-purpose="global-section-indicator">
+      <div class="global-coverage-kicker"><span>03</span><span>//</span><span>DOUBLE-ENTRY ARCHITECTURE</span></div>
+      <div class="global-coverage-heading-row">
+        <h2 id="global-coverage-heading">Receive &rarr; Allocate &rarr; Transfer &rarr; Dispatch &rarr; Reconcile. Every movement generates an immutable double-entry ledger entry. No item enters or departs unverified.</h2>
+        <a class="global-coverage-link" href="#process" data-purpose="action-button">Explore Process <span aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="global-coverage-stage" data-purpose="command-center-stage">
+      <div class="global-coverage-dashboard">
+        <div class="global-coverage-copy-panel" data-purpose="pipeline-indicators">
+          <div class="global-coverage-steps" aria-label="StockSense loop" id="globalCoverageSteps">
+            <button type="button" class="is-current" data-step="0" aria-pressed="true">
+              <span>A)</span><span>RECEIVE &amp; VERIFY</span>
+            </button>
+            <button type="button" data-step="1" aria-pressed="false">
+              <span>B)</span><span>ROUTE &amp; ALLOCATE</span>
+            </button>
+            <button type="button" data-step="2" aria-pressed="false">
+              <span>C)</span><span>DISPATCH &amp; RECONCILE</span>
+            </button>
+          </div>
+          <div class="global-coverage-copy-bottom" id="globalCoverageCopyBottom">
+            <h3 id="globalCoverageStepTitle">Double-entry inbound verification with zero inventory drift.</h3>
+            <p id="globalCoverageStepDesc">Vendor shipments (WH/IN/xxxx) are verified via camera barcode scanning against PO specifications. Validating instantly credits the destination rack and commits an immutable IN ledger entry with zero phantom discrepancies.</p>
+          </div>
+        </div>
+        <div class="global-coverage-visual-panel" data-purpose="telemetry-display-container">
+          <div class="global-coverage-grid" aria-hidden="true"></div>
+          <div class="global-coverage-horizon" aria-hidden="true"></div>
+          <div class="global-coverage-window-marks" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="global-coverage-graphic">
+            <!-- Orbiting Circles Globe -->
+            <div class="global-coverage-orbit">
+              <div class="orbit-scene" role="img" aria-label="StockSense technology stack orbiting the inventory ecosystem">
+                <div class="orbit-globe">
+                  <canvas id="particleSphereCanvas" class="orbit-globe-canvas" width="575" height="575" aria-hidden="true"></canvas>
+                </div>
+
+                <!-- Ring 1 (duration: 18s) -->
+                <div class="orbit-ring orbit-ring-1" aria-hidden="true">
+                  <div class="orbit-position orbit-cw" style="--start-angle: -60deg; --counter-offset: 60deg; --duration: 18s;">
+                    <div class="orbit-icon counter-cw">
+                      <img src="assets/stack-icons/react.png" alt="React 19" width="32" height="32" loading="eager" draggable="false" />
+                    </div>
+                  </div>
+                  <div class="orbit-position orbit-cw" style="--start-angle: 0deg; --counter-offset: 0deg; --duration: 18s;">
+                    <div class="orbit-icon counter-cw">
+                      <img src="assets/stack-icons/vite.png" alt="Next.js / Vite" width="32" height="32" loading="eager" draggable="false" />
+                    </div>
+                  </div>
+                  <div class="orbit-position orbit-cw" style="--start-angle: 60deg; --counter-offset: -60deg; --duration: 18s;">
+                    <div class="orbit-icon counter-cw">
+                      <img src="assets/stack-icons/react-router.png" alt="Declarative Routing" width="32" height="32" loading="eager" draggable="false" />
+                    </div>
+                  </div>
+                  <div class="orbit-position orbit-cw" style="--start-angle: 120deg; --counter-offset: -120deg; --duration: 18s;">
+                    <div class="orbit-icon counter-cw">
+                      <img src="assets/stack-icons/react.png" alt="React 19" width="32" height="32" loading="eager" draggable="false" />
+                    </div>
+                  </div>
+                  <div class="orbit-position orbit-cw" style="--start-angle: 180deg; --counter-offset: -180deg; --duration: 18s;">
+                    <div class="orbit-icon counter-cw">
+                      <img src="assets/stack-icons/vite.png" alt="Vite Engine" width="32" height="32" loading="eager" draggable="false" />
+                    </div>
+                  </div>
+                  <div class="orbit-position orbit-cw" style="--start-angle: 240deg; --counter-offset: -240deg; --duration: 18s;">
+                    <div class="orbit-icon counter-cw">
+                      <img src="assets/stack-icons/react-router.png" alt="Navigation" width="32" height="32" loading="eager" draggable="false" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Ring 2 (duration: 24s) -->
+                <div class="orbit-ring orbit-ring-2" aria-hidden="true">
+                  <div class="orbit-position orbit-ccw" style="--start-angle: -60deg; --counter-offset: 60deg; --duration: 24s;">
+                    <div class="orbit-icon counter-ccw">
+                      <img src="assets/stack-icons/echarts.png" alt="Analytics Charts" width="32" height="32" loading="eager" draggable="false" />
+                    </div>
+                  </div>
+                  <div class="orbit-position orbit-ccw" style="--start-angle: 0deg; --counter-offset: 0deg; --duration: 24s;">
+                    <div class="orbit-icon counter-ccw">
+                      <img src="assets/stack-icons/css.png" alt="Tailwind CSS" width="32" height="32" loading="eager" draggable="false" />
+                    </div>
+                  </div>
+                  <div class="orbit-position orbit-ccw" style="--start-angle: 60deg; --counter-offset: -60deg; --duration: 24s;">
+                    <div class="orbit-icon counter-ccw">
+                      <img src="assets/stack-icons/python.png" alt="TypeScript / Engine" width="32" height="32" loading="eager" draggable="false" />
+                    </div>
+                  </div>
+                  <div class="orbit-position orbit-ccw" style="--start-angle: 120deg; --counter-offset: -120deg; --duration: 24s;">
+                    <div class="orbit-icon counter-ccw">
+                      <img src="assets/stack-icons/echarts.png" alt="Analytics" width="32" height="32" loading="eager" draggable="false" />
+                    </div>
+                  </div>
+                  <div class="orbit-position orbit-ccw" style="--start-angle: 180deg; --counter-offset: -180deg; --duration: 24s;">
+                    <div class="orbit-icon counter-ccw">
+                      <img src="assets/stack-icons/css.png" alt="CSS Grid" width="32" height="32" loading="eager" draggable="false" />
+                    </div>
+                  </div>
+                  <div class="orbit-position orbit-ccw" style="--start-angle: 240deg; --counter-offset: -240deg; --duration: 24s;">
+                    <div class="orbit-icon counter-ccw">
+                      <img src="assets/stack-icons/python.png" alt="Ledger Kernel" width="32" height="32" loading="eager" draggable="false" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Ring 3 (duration: 30s) -->
+                <div class="orbit-ring orbit-ring-3" aria-hidden="true">
+                  <div class="orbit-position orbit-cw" style="--start-angle: -67.5deg; --counter-offset: 67.5deg; --duration: 30s;">
+                    <div class="orbit-icon counter-cw">
+                      <img src="assets/stack-icons/fastapi.png" alt="Three.js 3D" width="32" height="32" loading="eager" draggable="false" />
+                    </div>
+                  </div>
+                  <div class="orbit-position orbit-cw" style="--start-angle: -22.5deg; --counter-offset: 22.5deg; --duration: 30s;">
+                    <div class="orbit-icon counter-cw">
+                      <img src="assets/stack-icons/pydantic.png" alt="HTML5 QR" width="32" height="32" loading="eager" draggable="false" />
+                    </div>
+                  </div>
+                  <div class="orbit-position orbit-cw" style="--start-angle: 22.5deg; --counter-offset: -22.5deg; --duration: 30s;">
+                    <div class="orbit-icon counter-cw">
+                      <img src="assets/stack-icons/numpy.png" alt="Dynamic Matrix" width="32" height="32" loading="eager" draggable="false" />
+                    </div>
+                  </div>
+                  <div class="orbit-position orbit-cw" style="--start-angle: 67.5deg; --counter-offset: -67.5deg; --duration: 30s;">
+                    <div class="orbit-icon counter-cw">
+                      <img src="assets/stack-icons/uvicorn.png" alt="Fast Engine" width="32" height="32" loading="eager" draggable="false" />
+                    </div>
+                  </div>
+                  <div class="orbit-position orbit-cw" style="--start-angle: 112.5deg; --counter-offset: -112.5deg; --duration: 30s;">
+                    <div class="orbit-icon counter-cw">
+                      <img src="assets/stack-icons/fastapi.png" alt="API Layer" width="32" height="32" loading="eager" draggable="false" />
+                    </div>
+                  </div>
+                  <div class="orbit-position orbit-cw" style="--start-angle: 157.5deg; --counter-offset: -157.5deg; --duration: 30s;">
+                    <div class="orbit-icon counter-cw">
+                      <img src="assets/stack-icons/pydantic.png" alt="Schema" width="32" height="32" loading="eager" draggable="false" />
+                    </div>
+                  </div>
+                  <div class="orbit-position orbit-cw" style="--start-angle: 202.5deg; --counter-offset: -202.5deg; --duration: 30s;">
+                    <div class="orbit-icon counter-cw">
+                      <img src="assets/stack-icons/numpy.png" alt="Audit Core" width="32" height="32" loading="eager" draggable="false" />
+                    </div>
+                  </div>
+                  <div class="orbit-position orbit-cw" style="--start-angle: 247.5deg; --counter-offset: -247.5deg; --duration: 30s;">
+                    <div class="orbit-icon counter-cw">
+                      <img src="assets/stack-icons/uvicorn.png" alt="Event Bus" width="32" height="32" loading="eager" draggable="false" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Candidate Bin Sensors -->
+            <div class="global-coverage-sensor" style="top: 260px; right: 172px;" title="WH/Stock1 (Zone A - General)" tabindex="0" aria-label="WH/Stock1 (Zone A - General)"></div>
+            <div class="global-coverage-sensor" style="top: 320px; right: 320px;" title="WH/Stock2 (Zone B - Heavy Goods)" tabindex="0" aria-label="WH/Stock2 (Zone B - Heavy Goods)"></div>
+            <div class="global-coverage-sensor" style="top: 490px; right: 400px;" title="WH/Production (Zone C - Assembly)" tabindex="0" aria-label="WH/Production (Zone C - Assembly)"></div>
+            <div class="global-coverage-sensor" style="top: 505px; right: 92px;" title="NDH/Bulk-Storage (Facility 2)" tabindex="0" aria-label="NDH/Bulk-Storage (Facility 2)"></div>
+            <div class="global-coverage-sensor" style="top: 425px; right: 258px;" title="Vendor Inbound Dock (Bay 4)" tabindex="0" aria-label="Vendor Inbound Dock (Bay 4)"></div>
+            <div class="global-coverage-sensor" style="top: 330px; right: 135px;" title="Outbound Dispatch Staging (Bay 1)" tabindex="0" aria-label="Outbound Dispatch Staging (Bay 1)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       Stage 4: Process Section
+       ========================================================================== -->
+  <section class="process-section" id="process" aria-label="StockSense process">
+    <div class="process-inner">
+      <header class="process-header">
+        <div class="process-header-left">
+          <span class="process-number">04</span>
+          <div class="process-header-copy">
+            <div class="process-kicker"><span>//</span><span>PROCESS</span></div>
+            <p>From dock arrival to customer fulfillment — every movement is verified, routed, and committed into the universal double-entry stock ledger.</p>
+          </div>
+        </div>
+        <div class="process-crosshair" aria-hidden="true">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.25">
+            <path d="M7 1v12M1 7h12" stroke-linecap="round" />
+          </svg>
+        </div>
+      </header>
+
+      <div class="process-grid">
+        <aside class="process-aside" aria-label="Process steps">
+          <div class="process-aside-sticky">
+            <nav class="process-nav" aria-label="Process steps navigation">
+              <button class="process-nav-step is-current" type="button" data-step="0" aria-current="step">
+                <span>A)</span><span>OBSERVE &amp; INBOUND</span>
+              </button>
+              <button class="process-nav-step" type="button" data-step="1">
+                <span>B)</span><span>ROUTE &amp; ALLOCATE</span>
+              </button>
+              <button class="process-nav-step" type="button" data-step="2">
+                <span>C)</span><span>AUDIT &amp; RECONCILE</span>
+              </button>
+            </nav>
+            <div class="process-telemetry">
+              <div><span class="process-telemetry-dot"></span> <span>LEDGER // SYNCED</span></div>
+              <span>STG: <span id="processCurrentStage">01_INBOUND</span></span>
+            </div>
+          </div>
+          <div class="process-rail" id="processRail" aria-hidden="true">
+            <div class="process-rail-progress" id="processRailProgress"></div>
+            <span class="process-beacon" id="processBeacon"></span>
+          </div>
+          <button class="process-beacon-button" id="processNextBtn" type="button" aria-label="Go to next process step"></button>
+        </aside>
+
+        <div class="process-rows" id="processRows">
+          <!-- Step 1 -->
+          <article class="process-row is-active" data-step="0">
+            <div class="process-row-title">
+              <span class="process-stage-tag">// STAGE 01</span>
+              <h2>Observe &amp; Inbound</h2>
+              <p>RECEIVING_DOCK // VERIFIED</p>
+            </div>
+            <div class="process-image-wrap">
+              <img src="assets/process_inbound.jpg" alt="Automated optical receiving gate verifying an inbound storage tote" loading="eager" />
+            </div>
+            <ul class="process-features">
+              <li><span class="process-feature-box" aria-hidden="true">✓</span><span>Optical camera barcode &amp; QR verification against vendor PO</span></li>
+              <li><span class="process-feature-box" aria-hidden="true">✓</span><span>Atomic on-hand credit to target bin (WH/Stock1, Racks A-C)</span></li>
+              <li><span class="process-feature-box" aria-hidden="true">✓</span><span>Immutable IN ledger entry logged with timestamp and user stamp</span></li>
+              <li><span class="process-feature-box" aria-hidden="true">✓</span><span>Print-ready formal receipt slip with verification QR</span></li>
+            </ul>
+          </article>
+
+          <!-- Step 2 -->
+          <article class="process-row is-inactive" data-step="1">
+            <div class="process-row-title">
+              <span class="process-stage-tag">// STAGE 02</span>
+              <h2>Route &amp; Allocate</h2>
+              <p>DYNAMIC_ALLOCATOR // ARMED</p>
+            </div>
+            <div class="process-image-wrap">
+              <img src="assets/process_routing.jpg" alt="Autonomous warehouse shuttle carrying totes along a guided track" loading="lazy" />
+            </div>
+            <ul class="process-features">
+              <li><span class="process-feature-box" aria-hidden="true">✓</span><span>Inter-rack internal transfers (Main Store &rarr; Production Floor)</span></li>
+              <li><span class="process-feature-box" aria-hidden="true">✓</span><span>Dynamic Free-to-Use calculation: On Hand &minus; Reserved Ready Orders</span></li>
+              <li><span class="process-feature-box" aria-hidden="true">✓</span><span>Zero net company balance change during internal movements</span></li>
+              <li><span class="process-feature-box" aria-hidden="true">✓</span><span>Automated out-of-stock lock preventing negative dispatches</span></li>
+            </ul>
+          </article>
+
+          <!-- Step 3 -->
+          <article class="process-row is-inactive" data-step="2">
+            <div class="process-row-title">
+              <span class="process-stage-tag">// STAGE 03</span>
+              <h2>Audit &amp; Reconcile</h2>
+              <p>PHYSICAL_RECONCILIATION // ACTIVE</p>
+            </div>
+            <div class="process-image-wrap">
+              <img src="assets/process_audit.jpg" alt="Handheld inventory scanner verifying a metal storage bin" loading="lazy" />
+            </div>
+            <ul class="process-features">
+              <li><span class="process-feature-box" aria-hidden="true">✓</span><span>Bin-level physical count comparison (Counted vs Recorded Stock)</span></li>
+              <li><span class="process-feature-box" aria-hidden="true">✓</span><span>Automated shrinkage, transit loss, and damage categorization</span></li>
+              <li><span class="process-feature-box" aria-hidden="true">✓</span><span>Compensating ledger adjustment entry (ADJ) with mandatory reason</span></li>
+              <li><span class="process-feature-box" aria-hidden="true">✓</span><span>100% auditability across all warehouse operators and shifts</span></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+
+      <footer class="process-footer"><span>// STOCKSENSE_CORE_v2.0</span><span>IMMUTABLE_DOUBLE_ENTRY_LEDGER</span><span>OPERATIONAL</span></footer>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       Stage 5: Capabilities Section
+       ========================================================================== -->
+  <section class="capabilities-section" id="solution" aria-labelledby="capabilities-heading">
+    <div class="capabilities-inner">
+      <header class="capabilities-header">
+        <div class="capabilities-tag"><span>05</span><span>//</span><span>CAPABILITIES</span></div>
+        <a class="capabilities-learn" href="#footer">Learn More <span aria-hidden="true">↗</span></a>
+      </header>
+
+      <div class="capabilities-intro">
+        <h2 id="capabilities-heading">Engineered for zero-loss warehouse operations. Built-in camera barcode scanner, interactive 3D digital twin floor map, and an immutable double-entry ledger.</h2>
+      </div>
+
+      <div class="capabilities-grid">
+        <!-- Card 1: 3D Digital Twin with Rotating Particle Globe -->
+        <article class="capability-card">
+          <div class="capability-pixels" aria-hidden="true">
+            <span class="capability-pixel" style="top: -12px; left: 32px; width: 16px; height: 16px; background: #0ea5e9; box-shadow: 0 0 8px rgba(56,189,248,.4);"></span>
+            <span class="capability-pixel" style="top: -20px; left: 80px; width: 20px; height: 20px; background: #2563eb; box-shadow: 0 0 10px rgba(37,99,235,.4);"></span>
+            <span class="capability-pixel" style="top: -10px; right: 56px; width: 10px; height: 10px; background: #d4d4d4;"></span>
+            <span class="capability-pixel" style="top: -14px; right: 16px; width: 14px; height: 14px; background: #525252;"></span>
+            <span class="capability-pixel" style="top: -8px; left: 176px; width: 12px; height: 12px; background: #22d3ee;"></span>
+            <span class="capability-pixel" style="top: 80px; left: -10px; width: 12px; height: 12px; background: #38bdf8;"></span>
+            <span class="capability-pixel" style="top: 160px; right: -12px; width: 16px; height: 16px; background: #3b82f6;"></span>
+            <span class="capability-pixel" style="bottom: -12px; left: 32px; width: 14px; height: 14px; background: #2563eb;"></span>
+            <span class="capability-pixel" style="bottom: -18px; left: 96px; width: 20px; height: 20px; background: #38bdf8; box-shadow: 0 0 12px rgba(56,189,248,.5);"></span>
+            <span class="capability-pixel" style="bottom: -10px; left: 176px; width: 10px; height: 10px; background: #a3a3a3;"></span>
+            <span class="capability-pixel" style="bottom: -16px; right: 40px; width: 16px; height: 16px; background: #fff; box-shadow: 0 0 8px rgba(255,255,255,.4);"></span>
+            <span class="capability-pixel" style="bottom: -8px; right: 96px; width: 12px; height: 12px; background: #06b6d4;"></span>
+          </div>
+          <h3>3D Digital Twin Floor Map</h3>
+          <div class="capability-image-wrap">
+            <canvas id="threatParticleGlobeCanvas" class="capability-particle-globe" width="240" height="240" role="img" aria-label="Rotating particle globe representing simulated warehouse space"></canvas>
+          </div>
+          <p>Interactive 3D volumetric warehouse view with live rack occupancy heatmaps, bin fill percentages, and zone isolation.</p>
+        </article>
+
+        <!-- Card 2: Immutable Double-Entry Ledger -->
+        <article class="capability-card">
+          <div class="capability-pixels" aria-hidden="true">
+            <span class="capability-pixel" style="top: -16px; left: 24px; width: 20px; height: 20px; background: #2563eb; box-shadow: 0 0 12px rgba(37,99,235,.4);"></span>
+            <span class="capability-pixel" style="top: -20px; left: 80px; width: 20px; height: 20px; background: #38bdf8; box-shadow: 0 0 12px rgba(56,189,248,.5);"></span>
+            <span class="capability-pixel" style="top: -14px; left: 144px; width: 12px; height: 12px; background: #525252;"></span>
+            <span class="capability-pixel" style="top: -16px; right: 56px; width: 16px; height: 16px; background: #404040;"></span>
+            <span class="capability-pixel" style="top: -20px; right: 24px; width: 20px; height: 20px; background: #e5e5e5;"></span>
+            <span class="capability-pixel" style="top: -10px; right: -8px; width: 14px; height: 14px; background: #1e40af;"></span>
+            <span class="capability-pixel" style="top: 128px; left: -10px; width: 14px; height: 14px; background: #22d3ee;"></span>
+            <span class="capability-pixel" style="top: 96px; right: -12px; width: 16px; height: 16px; background: #0ea5e9;"></span>
+            <span class="capability-pixel" style="bottom: -20px; left: 40px; width: 20px; height: 20px; background: #e5e5e5;"></span>
+            <span class="capability-pixel" style="bottom: -12px; left: 96px; width: 16px; height: 16px; background: #38bdf8; box-shadow: 0 0 8px rgba(56,189,248,.4);"></span>
+            <span class="capability-pixel" style="bottom: -16px; left: 144px; width: 12px; height: 12px; background: #404040;"></span>
+            <span class="capability-pixel" style="bottom: -18px; right: 64px; width: 20px; height: 20px; background: #1e3a8a; border: 1px solid rgba(56,189,248,.2);"></span>
+            <span class="capability-pixel" style="bottom: -16px; right: 20px; width: 16px; height: 16px; background: #38bdf8; box-shadow: 0 0 10px rgba(56,189,248,.5);"></span>
+            <span class="capability-pixel" style="bottom: -8px; left: -6px; width: 10px; height: 10px; background: #3b82f6;"></span>
+          </div>
+          <h3>Double-Entry Stock Ledger</h3>
+          <div class="capability-image-wrap">
+            <img src="assets/capability_ledger.jpg" alt="Balanced inventory ledger columns linked through a central cube" />
+          </div>
+          <p>Every single transaction is recorded in an immutable ledger with atomic source/destination balances and full audit trails.</p>
+        </article>
+
+        <!-- Card 3: Camera Barcode & QR Scanner -->
+        <article class="capability-card">
+          <div class="capability-pixels" aria-hidden="true">
+            <span class="capability-pixel" style="top: -16px; left: 40px; width: 16px; height: 16px; background: #38bdf8; box-shadow: 0 0 10px rgba(56,189,248,.4);"></span>
+            <span class="capability-pixel" style="top: -20px; left: 96px; width: 20px; height: 20px; background: #2563eb; box-shadow: 0 0 12px rgba(37,99,235,.4);"></span>
+            <span class="capability-pixel" style="top: -10px; right: 48px; width: 10px; height: 10px; background: #a3a3a3;"></span>
+            <span class="capability-pixel" style="top: -16px; right: 16px; width: 16px; height: 16px; background: #e5e5e5;"></span>
+            <span class="capability-pixel" style="top: 112px; left: -12px; width: 16px; height: 16px; background: #38bdf8;"></span>
+            <span class="capability-pixel" style="top: 50%; right: -10px; width: 14px; height: 14px; background: #1e3a8a; border: 1px solid rgba(56,189,248,.2);"></span>
+            <span class="capability-pixel" style="top: 75%; left: -8px; width: 12px; height: 12px; background: #3b82f6;"></span>
+            <span class="capability-pixel" style="bottom: -12px; left: 40px; width: 14px; height: 14px; background: #38bdf8;"></span>
+            <span class="capability-pixel" style="bottom: -20px; left: 33.333%; width: 20px; height: 20px; background: #2563eb; box-shadow: 0 0 12px rgba(37,99,235,.4);"></span>
+            <span class="capability-pixel" style="bottom: -16px; right: 40px; width: 16px; height: 16px; background: #e5e5e5;"></span>
+            <span class="capability-pixel" style="bottom: -10px; right: 96px; width: 12px; height: 12px; background: #22d3ee;"></span>
+            <span class="capability-pixel" style="bottom: -14px; right: -8px; width: 14px; height: 14px; background: #0ea5e9;"></span>
+          </div>
+          <h3>AI Optical Barcode Scanner</h3>
+          <div class="capability-image-wrap">
+            <img src="assets/capability_scanner.jpg" alt="Rugged camera scanner reading a carton barcode" />
+          </div>
+          <p>Zero-hardware barcode scanning using phone and laptop cameras. Instant SKU lookup, quick receiving, and print-ready QR slips.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       Stage 6: Operational Proof
+       ======================================================================== -->
+  <section class="trusted-section" id="testimonials" aria-label="Operational Proof">
+    <div class="trusted-inner">
+      <header class="trusted-header">
+        <div class="trusted-tag"><span>06</span><span>//</span><span>OPERATIONAL PROOF</span></div>
+        <div class="trusted-nav-controls">
+          <button class="trusted-nav-btn" id="prevQuoteBtn" aria-label="Previous quote">&larr;</button>
+          <button class="trusted-nav-btn" id="nextQuoteBtn" aria-label="Next quote">&rarr;</button>
+        </div>
+      </header>
+
+      <div class="trusted-quote-stage">
+        <blockquote class="trusted-quote-text" id="testimonialQuote" aria-live="polite">
+          "Before StockSense, our warehouse floor suffered from phantom stockouts and disconnected WhatsApp updates. With the double-entry immutable ledger and dynamic Free-to-Use stock calculations, book stock matches physical rack counts with 99.4% accuracy across 128 bins."<span class="trusted-typing-cursor" aria-hidden="true">_</span>
+        </blockquote>
+        <div class="trusted-author-box">
+          <img class="trusted-avatar" id="testimonialAvatar" src="assets/hero_twin.png" alt="Alex Morgan" />
+          <div class="trusted-author-meta">
+            <div class="trusted-name" id="testimonialName">ALEX MORGAN</div>
+            <div class="trusted-role" id="testimonialRole">INVENTORY MANAGER // MAIN CENTRAL WAREHOUSE (WH)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       Stage 7: Terminal Footer
+       ======================================================================== -->
+  <div class="footer-container" id="contact">
+    <footer class="threat-footer" id="footer">
+      <div class="app-container" style="min-height: auto; padding-top: 0; padding-bottom: 2rem;">
+        <!-- Top Section Metadata Bar -->
+        <div class="footer-top-meta">
+          <span class="footer-section-num">07</span>
+          <div class="footer-meta-right">
+            <span class="footer-meta-slash">//</span>
+            <span class="footer-meta-copy">TERMINAL_STATUS: READY // IMMUTABLE LEDGER ONLINE</span>
+          </div>
+        </div>
+
+        <!-- Upper Matrix -->
+        <div class="footer-upper-grid">
+          <!-- Globe Card Col -->
+          <div class="footer-globe-col">
+            <div class="globe-card">
+              <div class="globe-status-tag">
+                <span class="globe-dot"></span>
+                <span>WMS_GRID // 100% ONLINE</span>
+              </div>
+              <div class="globe-canvas-wrapper" id="globeCanvasContainer"></div>
+              <div class="globe-card-reflection"></div>
+            </div>
+            <button class="btn-get-in-touch" id="openDemoBtnFooter">
+              <span>SCHEDULE WALKTHROUGH</span>
+              <span class="touch-arrow">&rarr;</span>
+            </button>
+          </div>
+
+          <!-- Nav Matrix -->
+          <div class="footer-nav-matrix">
+            <div class="nav-col">
+              <span class="nav-heading">OPERATIONS</span>
+              <ul class="nav-list">
+                <li><a href="http://localhost:3000/operations/receipts" target="_blank">Inbound Receipts (IN)</a></li>
+                <li><a href="http://localhost:3000/operations/transfers" target="_blank">Internal Transfers (INT)</a></li>
+                <li><a href="http://localhost:3000/operations/deliveries" target="_blank">Outbound Deliveries (OUT)</a></li>
+                <li><a href="http://localhost:3000/operations/adjustments" target="_blank">Stock Adjustments (ADJ)</a></li>
+              </ul>
+            </div>
+            <div class="nav-col">
+              <span class="nav-heading">ARCHITECTURE</span>
+              <ul class="nav-list">
+                <li><a href="http://localhost:3000/products" target="_blank">Product Catalog &amp; SKUs</a></li>
+                <li><a href="http://localhost:3000/warehouse-3d" target="_blank">3D Warehouse Digital Twin</a></li>
+                <li><a href="http://localhost:3000/move-history" target="_blank">Universal Stock Ledger</a></li>
+                <li><a href="http://localhost:3000/settings/warehouses" target="_blank">Multi-Facility Setup</a></li>
+              </ul>
+            </div>
+            <div class="nav-col">
+              <span class="nav-heading">RESOURCES</span>
+              <ul class="nav-list">
+                <li><a href="#problem">Problem Analysis</a></li>
+                <li><a href="#coverage">Double-Entry Core</a></li>
+                <li><a href="#process">3-Stage Workflow</a></li>
+                <li><a href="#solution">System Capabilities</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Security / Enterprise Quote -->
+          <div class="footer-quote-col">
+            <p class="footer-quote">
+              StockSense digitizes and centralizes all stock operations into a high-speed, real-time command center. Every physical movement is verified, authorized, and committed in an immutable double-entry ledger.
+            </p>
+          </div>
+        </div>
+
+        <div class="footer-divider-rule"></div>
+
+        <!-- Lower Matrix -->
+        <div class="footer-lower-grid">
+          <div>
+            <span class="meta-label">PLATFORM</span>
+            <div class="info-text">
+              StockSense WMS v2.0<br>
+              Main Central Warehouse (WH)<br>
+              North Distribution Hub (NDH)
+            </div>
+          </div>
+          <div>
+            <span class="meta-label">FACILITY HUBS</span>
+            <div class="info-block">
+              <div class="info-text">Sector 18 Industrial Logistics Park</div>
+              <div class="info-text" style="color: #64748b;">Plot 42, Main Central Facility</div>
+            </div>
+            <div class="info-block">
+              <div class="info-text">Ring Road North Complex 7</div>
+              <div class="info-text" style="color: #64748b;">Hub 02, Regional Distribution</div>
+            </div>
+          </div>
+          <div>
+            <span class="meta-label">SECURITY PROTOCOL</span>
+            <div class="info-text">
+              Double-Entry Ledger Integrity<br>
+              Immutable Audit Logs<br>
+              Role-Based Access Control (RBAC)<br>
+              Instant Barcode QR Verification
+            </div>
+          </div>
+          <div class="footer-satellite-col">
+            <div style="font-family: var(--font-mono); font-size: 0.75rem; color: #64748b; line-height: 1.6; text-align: right;">
+              <div>SYSTEM_UPTIME: <span style="color: #38bdf8;">99.98%</span></div>
+              <div>ACTIVE_OPERATORS: <span style="color: #ffffff;">ONLINE</span></div>
+              <div>RECONCILIATION_DRIFT: <span style="color: #22c55e;">0.00%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Monumental Full Un-Snipped Wordmark -->
+        <div class="footer-wordmark-wrapper">
+          <span class="footer-giant-title">STOCKSENSE</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Enterprise Briefing / Demo Modal Dialog -->
+  <dialog class="demo-dialog" id="demoModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="sq-bullet">■</span>
+          <h3>REQUEST STOCKSENSE BRIEFING</h3>
+        </div>
+        <button class="modal-close" id="closeDemoBtn" aria-label="Close modal">&times;</button>
+      </div>
+
+      <p class="modal-sub">Walk through StockSense's double-entry stock ledger, 3D digital twin warehouse floor map, and camera barcode verification in a live technical walkthrough.</p>
+
+      <form class="demo-form" id="demoForm" onsubmit="event.preventDefault(); window.submitDemoRequest();">
+        <div class="form-group">
+          <label for="workEmail">WORK EMAIL</label>
+          <input type="email" id="workEmail" placeholder="inventory.manager@company.com" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="companyName">ENTERPRISE / WAREHOUSE FACILITY</label>
+          <input type="text" id="companyName" placeholder="Distribution Center / Brand Name" required>
+        </div>
+        <div class="form-group">
+          <label for="cloudInfra">INVENTORY SCALE (SKUS / BINS)</label>
+          <select id="cloudInfra">
+            <option value="100-500">100 &ndash; 500 SKUs (1 Facility)</option>
+            <option value="500-2000">500 &ndash; 2,000 SKUs (Multi-Zone)</option>
+            <option value="2000+">2,000+ SKUs (Multi-Warehouse Network)</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-modal-submit" id="submitBtn">
+          <span>REQUEST WALKTHROUGH</span>
+          <span class="submit-arrow">&rarr;</span>
+        </button>
+      </form>
+      <div class="modal-footer-note">
+        [ZERO DRIFT] Immutable Ledger Verification &bull; No credit card or hardware required
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Three.js for Interactive 3D Earth Globe -->
+  <script src="three.min.js"></script>
+  <script src="script.js?v=12"></script>
+</body>
+</html>

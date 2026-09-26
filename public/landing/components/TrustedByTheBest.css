@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+.trusted-section,
+.trusted-section * { box-sizing: border-box; }
+
+.trusted-section {
+  min-height: 72vh;
+  padding: 28px 0 44px;
+  overflow: hidden;
+  color: #fff;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(ellipse at 16% 54%, rgba(14, 165, 233, .13) 0%, transparent 47%),
+    radial-gradient(ellipse at 88% 30%, rgba(34, 211, 238, .06) 0%, transparent 38%),
+    linear-gradient(180deg, #05070a 0%, #070b10 52%, #05070a 100%);
+}
+
+.trusted-inner {
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 1440px);
+  min-height: inherit;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 5vw, 72px);
+}
+
+.trusted-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+}
+
+.trusted-tag {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: rgba(56, 189, 248, .82);
+  font: 400 12px/1.4 'Space Mono', monospace;
+  letter-spacing: .16em;
+  white-space: nowrap;
+}
+
+.trusted-tag span:nth-child(2) { opacity: .45; }
+
+.trusted-nav-controls { display: flex; gap: 8px; }
+
+.trusted-nav-btn {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, .16);
+  color: rgba(255, 255, 255, .82);
+  background: rgba(255, 255, 255, .025);
+  font: 500 20px/1 'Space Mono', monospace;
+  cursor: pointer;
+  transition: background-color .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.trusted-nav-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: rgba(56, 189, 248, .62);
+  color: #fff;
+  background: rgba(56, 189, 248, .08);
+}
+
+.trusted-nav-btn:focus-visible { outline: 2px solid #38bdf8; outline-offset: 3px; }
+.trusted-nav-btn:disabled { opacity: .45; cursor: default; }
+
+.trusted-quote-stage {
+  display: grid;
+  flex: 1;
+  grid-template-columns: minmax(0, 1fr) minmax(190px, 250px);
+  align-items: end;
+  gap: clamp(32px, 6vw, 88px);
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(52px, 9vh, 100px) 0 clamp(32px, 6vh, 64px);
+}
+
+.trusted-quote-text {
+  max-width: 920px;
+  margin: 0;
+  color: #fff;
+  font-size: clamp(24px, 3.1vw, 44px);
+  font-weight: 500;
+  letter-spacing: -.035em;
+  line-height: 1.22;
+  text-wrap: pretty;
+}
+
+.trusted-typing-cursor {
+  display: inline-block;
+  margin-left: 6px;
+  color: #38bdf8;
+  font: 300 .8em/1 'Space Mono', monospace;
+  animation: trusted-cursor-blink 1s steps(2, start) infinite;
+}
+
+@keyframes trusted-cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.trusted-author-box {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.trusted-avatar {
+  display: block;
+  flex: none;
+  width: 64px;
+  height: 64px;
+  border: 1px solid rgba(56, 189, 248, .38);
+  border-radius: 50%;
+  background: #e2e8f0;
+  object-fit: cover;
+  object-position: center;
+}
+
+.trusted-author-meta { min-width: 0; }
+.trusted-name { font: 700 12px/1.5 'Space Mono', monospace; letter-spacing: .08em; }
+.trusted-role { margin-top: 5px; color: rgba(255, 255, 255, .56); font: 400 10px/1.55 'Space Mono', monospace; letter-spacing: .025em; }
+
+@media (min-width: 768px) {
+  .trusted-section { min-height: 78vh; padding-top: 32px; }
+  .trusted-avatar { width: 76px; height: 76px; }
+  .trusted-name { font-size: 13px; }
+  .trusted-role { font-size: 10px; }
+}
+
+@media (max-width: 700px) {
+  .trusted-section { min-height: 580px; padding: 24px 0 32px; }
+  .trusted-quote-stage {
+    grid-template-columns: 1fr;
+    align-content: center;
+    align-items: start;
+    gap: 32px;
+    padding: 64px 0 24px;
+  }
+  .trusted-quote-text { font-size: clamp(24px, 7vw, 34px); }
+  .trusted-author-box { max-width: 320px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trusted-typing-cursor { animation: none; }
+  .trusted-nav-btn { transition: none; }
+}
